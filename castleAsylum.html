@@ -151,14 +151,8 @@
                 </div>
             </div>
             <div class="inputBox" id="button">
-                
-                <a href="gameOverCastleSelection.html">
                 <input type="button" id="choice1" class="option" value="Make your way to the castle">
-                </a>
-                
-                <a href="OAsylum.html">
                 <input type="button" id="choice2" class="option" value="Make your way to the Asylum">
-                </a>
             </div>
             <div class="inputBox" id="textInput">
                 <label for="codeInput"><p>Input the code:</p></label>
@@ -176,6 +170,22 @@
                 timer();
                 timerVar = setInterval(timer,1000);
             })
+
+            document.querySelector('#choice1').addEventListener('click', function(){
+                next = setTimeout(nextCastle, 1000);
+            });
+
+            document.querySelector('#choice2').addEventListener('click', function(){
+                next = setTimeout(nextAsylum, 1000);
+            });
+
+            function nextAsylum(){
+                window.location.replace('OAsylum.html');
+            }
+
+            function nextCastle(){
+                window.location.replace('gameOverCastleSelection.html');
+            }
 
             function timer(){
                 saveTime();
