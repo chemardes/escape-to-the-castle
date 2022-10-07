@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Morse Code Room</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style type="text/css">
+            @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rye&family=VT323&display=swap');
+
+            *{
+                margin: 0px;
+                padding: 0px;
+                box-sizing: border-box;
+            }
+
+            body{
+                background-color: black;
+                font-family: 'VT323', monospace;
+                font-size: 1.2em;
+                
+            }
+
+            #header{
+                height: 15vh;
+                overflow-wrap: break-word;
+                border-bottom: 4px solid white;
+                padding: 50px;
+            }
+
+            #header h1{
+                font-family: 'Press Start 2P', cursive;
+                text-align: center;
+                color: red;
+                font-size: 1em;
+            }
+
+            #container{
+                height: auto;
+            }
+
+            #box{
+                height: 60vh;
+                border-bottom: 4px solid white;
+                padding: 50px 300px;
+            }
+
+            #room{
+                width:100%;
+                height:100%;
+                border: 4px solid white;
+                position: relative;
+            }
+
+            #roomImg{
+                object-fit: fill;
+                width: 100%;
+                height: 100%;
+                
+            }
+
+            .inputBox{
+                padding: 30px;
+            }
+
+            #textInput{
+                float:left;
+                width: 100%;
+            }
+
+            #option{
+                background-color: black;
+                padding: 10px;
+                font-family: 'VT323', monospace;
+                font-size: 1.3em;
+                color: white;
+                margin-right: 30px;
+                width: 325px;
+                border: 3px solid #8c1936;
+                
+            }
+
+            #option:hover{
+                background-color: #a3465e;
+            }
+
+            .inputBox p{
+                font-size: 1.2em;
+                color: white;
+            }
+
+            #codeInput{
+                border: 4px solid white;
+                padding: 10px;
+                background-color: black;
+                height: 50px;
+                width: 50%;
+                color: white;
+                font-family: 'VT323', monospace;
+                font-size: 1.2em;
+            }
+            #storyBox{
+                background-color: rgba(140,25,54,.3);
+                width: 100%;
+                padding:10px;
+                position:absolute;
+                bottom: 0px;
+                color: #FFFFF7;
+            }
+            #question{
+                color: black;
+                text-align: center;
+            }
+            #litup{
+                position: relative; left: 200px; bottom: 300px;
+            }
+            #paper{
+                width: 100%;
+                height: 100%;
+                display: none;
+                position: absolute;
+                bottom: 0px;
+            }
+
+            #timer{
+                display: block;
+                width: 100px;
+                height: 55px;
+                position: absolute;
+                left: 1.5rem;
+                top: 2rem;
+                color: white;
+                padding: 5px;
+                font-size: 2em;
+                border: 4px solid white;
+            }
+
+            @media screen and (max-width:1200px){
+                #box{
+                    padding: 50px 100px;
+                }
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="header">
+            <div id="timer"></div>
+            <h1>Escape to the Castle</h1>
+        </div>
+
+        <div id="container">
+            <div id="box">
+                <div id="room">
+                    <img src="images/adrianRoom.jpg" alt="creepy room image" id="roomImg"/>
+                    <img id="paper" src="images/morseCode.png">
+                    <div id="storyBox">
+                        <p id="story">The door before leads to another room. This room has a bed and a nightstand.
+                            On the nightstand you see a paper fold into a tiny square. It might have something to do with
+                            the lock for the next room.
+                        </p>    
+                    </div>
+                    
+                </div>
+                <button id="btn" onclick="return show()">Open paper</button>    
+                <p id="question">Decypher the morsecode to open the door:</p>
+            </div>
+            <div class="inputBox" id="textInput">
+                <label for="codeInput"><p>Input the code:</p></label>
+                <input type="text" id="codeInput">
+                <button id="option" onclick="return validateAns()">submit</button>
+            </div>
+            
+        </div>
+        <script type="text/javascript" src="js/js.js"></script>
+        <script type="text/javascript">
+
+            window.addEventListener('load', function(){
+                getTimeRem();
+                timerVar = setInterval(getTimeRem,1000);
+            })
+
+            function getTimeRem(){
+                var currentTime = Number(sessionStorage.getItem('timer'));
+                var display = document.querySelector('#timer');
+                var minutes = Math.floor(currentTime/60);
+                var seconds = currentTime - (minutes * 60);
+                sessionStorage.setItem('timer', --currentTime);
+                console.log(currentTime);
+                if(minutes < 10)
+                    minutes = "0"+minutes;
+                if(seconds < 10)
+                    seconds = "0"+seconds;
+                if(currentTime <= 10)
+                    document.querySelector('#timer').style.color = 'red';
+                if(currentTime >= 0){
+                    document.querySelector("#timer").innerHTML = minutes + ":" + seconds;
+                }else{
+                    clearInterval(timerVar);
+                    window.location.replace("gameOver.html");
+                }
+            }
+
+            //counter method for rooms entered
+            window.addEventListener('load', roomEnter);
+            
+            function roomEnter() {
+
+                // function needs to be called on load at every room stage
+
+                // sessionStorage.setItem('numRoom', 79);
+
+                let numRoom = sessionStorage.getItem('numRoom');
+
+                numRoom++;
+
+                sessionStorage.setItem('numRoom', numRoom);
+            }
+
+        </script>
+    </body>
+</html>

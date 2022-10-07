@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Statistics Page</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rye&family=VT323&display=swap');
+
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: black;
+            font-family: 'VT323', monospace;
+            font-size: 1.2em;
+        }
+
+        #header {
+            height: 15vh;
+            overflow-wrap: break-word;
+            border-bottom: 4px solid white;
+            padding: 50px;
+        }
+
+        #header h1 {
+            font-family: 'Press Start 2P', cursive;
+            text-align: center;
+            color: red;
+            font-size: 1em;
+        }
+
+        #greeting1,
+        #greeting2,
+        #greeting3,
+        #greeting4 {
+
+            color: white;
+        }
+
+        #tryagainBtn {
+            background-color: black;
+            padding: 10px;
+            font-family: 'VT323', monospace;
+            font-size: 1.2em;
+            color: white;
+            width: 200px;
+            border: 3px solid chocolate;
+            position: relative;
+            /* right: 20px;
+                bottom: 210px; */
+        }
+
+        #tryagainBtn:hover {
+            background-color: #df9661;
+        }
+
+        #box {
+            height: 60vh;
+            border-bottom: 4px solid white;
+        }
+
+        #textBox{
+            width: 50%;
+            float:left;
+            padding-left: 50px;
+        }
+
+        #imgBox{
+            width: 50%;
+            float:left;
+            display:flex;
+            align-items: center;
+            justify-items: center;
+        }
+
+        #statsImg{
+            width: 80%;
+        }
+
+        #title {
+            color: white;
+
+        }
+
+        /* @media screen and (max-width:1200px) {
+            #box {
+                padding: 50px 100px;
+            }
+        } */
+    </style>
+
+</head>
+
+<body>
+
+    <div id="header">
+        <h1>Escape to the Castle</h1>
+    </div>
+
+    <br>
+    <br>
+
+    <div class="container">
+        <div id="box">
+            <div id="textBox">
+                <h1 id="title"> End Game Statistics</h1>
+                <br>
+                <br>
+                
+                <h3 id="greeting1"></h3>
+                <br>
+                <h3 id="greeting2"></h3>
+                <br>
+                <h3 id="greeting3"></h3>
+                <br>
+                <h3 id="greeting4"></h3>
+                <!-- <h2 class="countMsg">Game Starting in....</h1>
+            <br><br>
+            <h2 id="countdown" class="countMsg">5</h2>
+            <br> -->
+                <!-- <h2>seconds</h2> -->
+                <br>
+                <br>
+                <button type="button" id="tryagainBtn" onclick="mainpage()">Play again?</button>    
+            </div>
+            <div id="imgBox">
+                <img style="float: right;" src="images/statscastle.jpg" alt="room image" id="statsImg" />
+            </div>
+        </div>
+
+
+    </div>
+
+    <script type="text/javascript">
+
+        function mainpage() {
+            window.location.replace('Group28_MainPage.html');
+            sessionStorage.clear();
+
+        }
+
+        // window.addEventListener("load", function(){
+        // start = setInterval(countdown, 1000); 
+        // });
+
+        // window.addEventListener("load", roomEnter);
+
+        window.addEventListener("load", getStats);
+
+        //window.addEventListener("load", AttemptsTaken);
+
+        function getStats() {
+
+            let name = sessionStorage.getItem('name');
+            let timer = sessionStorage.getItem('timer');
+            let numRoom = sessionStorage.getItem('numRoom');
+            let timesTried = sessionStorage.getItem('timesTried');
+            console.log(timer);
+            // var minutes = Math.floor(currentTime/60);
+            // var seconds = currentTime - (minutes * 60);
+            // timer = minutes + ":" + seconds;
+
+            let greet1 = document.getElementById('greeting1');
+            greet1.style.whiteSpace='pre-wrap';
+            let greet2 = document.getElementById('greeting2');
+            let greet3 = document.getElementById('greeting3');
+            let greet4 = document.getElementById('greeting4');
+
+            greet1.innerHTML = 'Congratulations ' + name + ',\nYou have escaped to the castle';
+            greet2.innerHTML = 'You had ' + timer + ' seconds remaining';
+            greet3.innerHTML = 'You made it through ' + numRoom + ' rooms';
+            greet4.innerHTML = 'It took you ' + timesTried + ' attempts to complete the game';
+        }
+
+        // function AttemptsTaken() {
+
+        //     // only call this method on load of game over page
+
+        //     let timesTried = sessionStorage.getItem('timesTried');
+
+        //     timesTried++;
+
+        //     sessionStorage.setItem('timesTried', timesTried);
+        // }
+
+
+        // function countdown(){
+        //     duration--;
+        //     if(duration >=0){
+        //        document.querySelector('#countdown').innerHTML = duration; 
+        //        sessionStorage.setItem('timer', duration);
+        //     }else{
+        //         //change the link to the first page later on
+        //         window.location.replace("torchroom.html");
+        //     }
+        //     console.log(duration);
+
+
+
+        // }
+
+        function roomEnter() {
+
+            // function needs to be called on load at every room stage
+
+            // sessionStorage.setItem('numRoom', 79);
+
+            let numRoom = sessionStorage.getItem('numRoom');
+
+            numRoom++;
+
+            sessionStorage.setItem('numRoom', numRoom);
+        }
+
+
+    </script>
+</body>
+
+
+</html>

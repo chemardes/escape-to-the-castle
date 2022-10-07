@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Text Based Adventure Game</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rye&family=VT323&display=swap');
+        /* <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> */
+
+
+        /* .room{
+            
+            height:100vh;
+        } */
+
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+            /* z-index: 2; */
+        }
+
+        #box {
+
+            height: 60vh;
+            border-bottom: 4px solid white;
+            padding: 50px 300px;
+            background: none;
+            z-index: 1;
+        }
+
+        #room {
+            /* background-image: url(C:/Users/User/Documents/Image/asylum.jpg); */
+            background-size: cover;
+            width: 100%;
+            height: 100%;
+            border: 4px solid white;
+            position: relative;
+            z-index: 1;
+
+        }
+
+        #roomImg {
+            position: absolute;
+            /* opacity: 0.1; */
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+
+        }
+
+        #storyBox {
+            background-color: rgba(140, 25, 54, .3);
+            width: 100%;
+            padding: 10px;
+            position: absolute;
+            bottom: 0px;
+            color: #FFFFF7;
+            z-index: 1;
+        }
+
+
+        #header {
+            height: 15vh;
+            overflow-wrap: break-word;
+            border-bottom: 4px solid white;
+            padding: 50px;
+            /* background: fixed; */
+            /* background-color: aqua; */
+            z-index: 8;
+        }
+
+        #header h1 {
+            font-family: 'Press Start 2P', cursive;
+            text-align: center;
+            color: red;
+            font-size: 1em;
+            z-index: 8;
+        }
+
+        #container {
+            height: 85vh;
+        }
+
+        /*Flashlight overlay */
+
+
+        :root {
+            cursor: none;
+            --cursorX: 50vw;
+            --cursorY: 50vh;
+        }
+
+        :root:before {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 7;
+            background: radial-gradient(circle 4vmax at var(--cursorX) var(--cursorY),
+                    rgba(0, 0, 0, 0) 0%,
+                    rgba(0, 0, 0, 0.5) 0%,
+                    rgba(0, 0, 0, 0.95) 100%)
+        }
+
+        body {
+            background-color: black;
+            font-family: 'VT323', monospace;
+            font-size: 1.2em;
+        }
+
+        #keyImg {
+            position: absolute;
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+        }
+
+        #timer {
+            display: block;
+            width: 100px;
+            height: 55px;
+            position: absolute;
+            left: 1.5rem;
+            top: 2rem;
+            color: white;
+            padding: 5px;
+            font-size: 2em;
+            border: 4px solid white;
+        }
+
+        @media screen and (max-width:1200px) {
+            #box {
+                padding: 50px 100px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="header">
+        <div id="timer"></div>
+        <h1 color=red>Escape to the Castle</h1>
+    </div>
+
+    <!-- <section class="room"> -->
+    <div id="container">
+        <div id="box">
+            <div id="room">
+                <img src="images/asylum.jpg" alt="asylum room image" id="roomImg">
+                <img src="images/key.png" alt="key image" id="keyImg" usemap="#workmap">
+
+                <map name="workmap">
+                    <area shape="rect" coords="50,150,150,230" alt="Computer" onclick="nextpage()">
+                </map>
+                <div id="storyBox">
+                    <p id="story">Find the key hidden in the room! Click on the key to escape!!</p>
+                </div>
+
+            </div>
+            <!-- <button id="keybtn" class="closing" onClick="nextroom()"><img src="C:/Users/User/Documents/key.png" /></button> -->
+            <!-- <map name="workmap">
+                <area shape="rect" coords="0,0,270,0" alt="Computer" href = "room.html" style="outline-color: red; color: aqua;">
+            </map> -->
+        </div>
+
+
+        <!-- </section> -->
+
+        <script type="text/javascript">
+
+            function update(e) {
+                var x = e.clientX || e.touches[0].clientX
+                var y = e.clientY || e.touches[0].clientY
+
+                document.documentElement.style.setProperty('--cursorX', x + 'px')
+                document.documentElement.style.setProperty('--cursorY', y + 'px')
+            }
+
+            document.addEventListener('mousemove', update)
+            document.addEventListener('touchmove', update)
+
+            // document.getElementById('#roomImg').addEventListener('mouseover', torchOn);
+            // document.getElementById('#roomImg').addEventListener('mouseleave', torchOff);
+
+
+            // function torchOn(){
+            //                 document.getElementById('#roomImg').style.opacity='1';
+            //             }
+
+            //             function torchOff(){
+            //                 document.getElementById('#roomImg').style.opacity='0.1';
+            //             }
+
+
+            function nextpage() {
+                alert("Congratulations you found the key!! You can now unlock the door to the next room!");
+                window.location.replace('adrianroom1.html');
+
+            }
+
+            //timer - chelsea
+            window.addEventListener('load', function () {
+                getTimeRem();
+                timerVar = setInterval(getTimeRem, 1000);
+            })
+
+            function getTimeRem() {
+                var currentTime = Number(sessionStorage.getItem('timer'));
+                var display = document.querySelector('#timer');
+                var minutes = Math.floor(currentTime / 60);
+                var seconds = currentTime - (minutes * 60);
+                sessionStorage.setItem('timer', --currentTime);
+                console.log(currentTime);
+                if (minutes < 10)
+                    minutes = "0" + minutes;
+                if (seconds < 10)
+                    seconds = "0" + seconds;
+                if (currentTime <= 10)
+                    document.querySelector('#timer').style.color = 'red';
+                if (currentTime >= 0) {
+                    document.querySelector("#timer").innerHTML = minutes + ":" + seconds;
+                } else {
+                    clearInterval(timerVar);
+                    window.location.replace("gameOver.html");
+                }
+            }
+
+            //counter method for rooms entered
+            window.addEventListener('load', roomEnter);
+
+            function roomEnter() {
+
+                // function needs to be called on load at every room stage
+
+                // sessionStorage.setItem('numRoom', 79);
+
+                let numRoom = sessionStorage.getItem('numRoom');
+
+                numRoom++;
+
+                sessionStorage.setItem('numRoom', numRoom);
+            }
+
+        </script>
+
+</body>
+
+</html>

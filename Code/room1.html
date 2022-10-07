@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Room One</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rye&family=VT323&display=swap');
+
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: black;
+            font-family: 'VT323', monospace;
+            font-size: 1.2em;
+        }
+
+        #header {
+            height: 15vh;
+            overflow-wrap: break-word;
+            border-bottom: 4px solid white;
+            padding: 50px;
+        }
+
+        #header h1 {
+            font-family: 'Press Start 2P', cursive;
+            text-align: center;
+            color: red;
+            font-size: 1em;
+        }
+
+        #container {
+            height: 85vh;
+        }
+
+        #box {
+            height: 60vh;
+            border-bottom: 4px solid white;
+            padding: 50px 300px;
+        }
+
+        #room {
+            width: 100%;
+            height: 100%;
+            border: 4px solid white;
+            position: relative;
+        }
+
+        #roomImg {
+            object-fit: fill;
+            width: 100%;
+            height: 100%;
+        }
+
+        #hintBox {
+            background-color: rgba(239, 229, 213, 0.5);
+            width: 70%;
+            height: 30%;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            display: none;
+            margin: 0 auto;
+            bottom: 250px;
+            color: black;
+        }
+
+        #storyBox {
+            background-color: rgba(140, 25, 54, .3);
+            width: 100%;
+            padding: 10px;
+            position: absolute;
+            bottom: 0px;
+            color: #FFFFF7;
+        }
+
+        .inputBox {
+            padding: 20px;
+
+
+        }
+
+        #choices {
+            float: left;
+            width: 100%;
+        }
+
+        #mainChoice {
+            width: 100%;
+            margin-bottom: 20px;
+            ;
+        }
+
+        #subChoice {
+            width: 100%;
+            display: none;
+        }
+
+        #textInput {
+            float: left;
+            width: 40%;
+        }
+
+        .option {
+            background-color: black;
+            padding: 10px;
+            font-family: 'VT323', monospace;
+            font-size: 1.2em;
+            color: white;
+            margin-right: 10px;
+            width: 300px;
+            border: 3px solid #8c1936;
+        }
+
+        .subOption {
+            background-color: black;
+            padding: 10px;
+            font-family: 'VT323', monospace;
+            font-size: 1.2em;
+            color: white;
+            margin-right: 10px;
+            width: 300px;
+        }
+
+        #sChoice1 {
+            border: 3px solid #aac9a4;
+        }
+
+        #sChoice1:hover {
+            background-color: #aac9a4;
+        }
+
+        #sChoice2 {
+            border: 3px solid #99bfcc;
+        }
+
+        #sChoice2:hover {
+            background-color: #99bfcc;
+        }
+
+        #sChoice3 {
+            border: 3px solid #c3a4c9;
+        }
+
+        #sChoice3:hover {
+            background-color: #c3a4c9;
+        }
+
+        #sChoice4 {
+            border: 3px solid palevioletred;
+        }
+
+        #sChoice4:hover {
+            background-color: palevioletred;
+        }
+
+        .option:hover {
+            background-color: #a3465e;
+        }
+
+        .subOption:hover {
+            background-color: #7da7ca;
+        }
+
+        .inputBox p {
+            font-size: 1.2em;
+            color: white;
+        }
+
+        #textInput {
+            display: none;
+        }
+
+        #pressed {
+            border: 4px solid white;
+            padding: 10px;
+            background-color: black;
+            height: 50px;
+            width: 100%;
+            color: white;
+            font-family: 'VT323', monospace;
+            font-size: 1.2em;
+        }
+
+        #message {
+            text-align: center;
+        }
+
+        #timer {
+            display: block;
+            width: 100px;
+            height: 55px;
+            position: absolute;
+            left: 1.5rem;
+            top: 2rem;
+            color: white;
+            padding: 5px;
+            font-size: 2em;
+            border: 4px solid white;
+        }
+
+        @media screen and (max-width:1200px) {
+            #box {
+                padding: 50px 100px;
+            }
+        }
+
+        @media screen and (max-width:900px) {
+            #box {
+                padding: 50px 100px;
+            }
+
+            #mainChoice {
+                width: 50%;
+                float: left;
+            }
+
+            #subChoice {
+                width: 50%;
+                float: left;
+                padding-left: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header">
+        <div id="timer"></div>
+        <h1>Escape to the Castle</h1>
+    </div>
+
+    <div id="container">
+        <div id="box">
+            <div id="room">
+                <img src="images/hammerRoom.jpg" alt="hammer room image" id="roomImg" usemap="#hammer" />
+                <map name="hammer">
+                    <area shape="rect" coords="800,200,950,250" alt="crowbar" onclick="textPop()">
+                </map>
+                <div id="hintBox"></div>
+                <div id="storyBox">
+                    <p id="story">You managed to get into the Asylum. But, you're stuck in this creepy room.
+                        Look around to see if you can escape!
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="inputBox" id="choices">
+            <div id="mainChoice">
+                <input type="button" id="choice1" class="option" value="Escape through the window">
+                <input type="button" id="choice2" class="option" value="try and open the door">
+                <input type="button" id="choice3" class="option" value="search for a tool in the room">
+
+            </div>
+            <div id="subChoice">
+                <input type="button" id="sChoice1" class="subOption"
+                    value="Pry open the door with crowbar to enter the next room">
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        //room1 functions
+        const storyText = document.querySelector('#story');
+        const subChoice = document.querySelector('#subChoice');
+
+        document.querySelector('#choice1').addEventListener('click', function () {
+            storyText.textContent = 'You cant escape through the window it is overgrown with thorny brambles!';
+
+        });
+
+        document.querySelector('#choice2').addEventListener('click', function () {
+            let name = sessionStorage.getItem('name');
+            storyText.textContent = ' You tried to open the door but the door is locked, find something to pry the door open with'
+        });
+
+        document.querySelector('#choice3').addEventListener('click', function () {
+            storyText.textContent = 'hint: Click on a tool you find in the room. ';
+        })
+
+        document.querySelector('#sChoice1').addEventListener('click', function () {
+            storyText.textContent = 'Well done you have pryed open the door'
+            setTimeout(nextPage, 1000);
+        });
+
+        function textPop() {
+            subChoice.style.display = 'block';
+            document.querySelector('#sChoice1').style.display = 'inline-block';
+
+        }
+
+        function nextPage() {
+            window.location.replace('torchroom.html');
+        }
+
+        //timer - chelsea
+        window.addEventListener('load', function () {
+            getTimeRem();
+            timerVar = setInterval(getTimeRem, 1000);
+        })
+        
+        function getTimeRem() {
+            var currentTime = Number(sessionStorage.getItem('timer'));
+            var display = document.querySelector('#timer');
+            var minutes = Math.floor(currentTime / 60);
+            var seconds = currentTime - (minutes * 60);
+            sessionStorage.setItem('timer', --currentTime);
+            console.log(currentTime);
+            if (minutes < 10)
+                minutes = "0" + minutes;
+            if (seconds < 10)
+                seconds = "0" + seconds;
+            if (currentTime <= 10)
+                document.querySelector('#timer').style.color = 'red';
+            if (currentTime >= 0) {
+                document.querySelector("#timer").innerHTML = minutes + ":" + seconds;
+            } else {
+                clearInterval(timerVar);
+                window.location.replace("gameOver.html");
+            }
+        }
+
+        //counter method for rooms entered
+        window.addEventListener('load', roomEnter);
+
+        function roomEnter() {
+
+            // function needs to be called on load at every room stage
+
+            // sessionStorage.setItem('numRoom', 79);
+
+            let numRoom = sessionStorage.getItem('numRoom');
+
+            numRoom++;
+
+            sessionStorage.setItem('numRoom', numRoom);
+        }
+    </script>
+</body>
+
+</html>
