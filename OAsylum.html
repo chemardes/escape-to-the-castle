@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Outside the Asylum</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rye&family=VT323&display=swap');
+
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: black;
+            font-family: 'VT323', monospace;
+            font-size: 1.2em;
+        }
+
+        #header {
+            height: 15vh;
+            overflow-wrap: break-word;
+            border-bottom: 4px solid white;
+            padding: 50px;
+        }
+
+        #header h1 {
+            font-family: 'Press Start 2P', cursive;
+            text-align: center;
+            color: red;
+            font-size: 1em;
+        }
+
+        #container {
+            height: 85vh;
+        }
+
+        #box {
+            height: 60vh;
+            border-bottom: 4px solid white;
+            padding: 50px 300px;
+        }
+
+        #room {
+            width: 100%;
+            height: 100%;
+            border: 4px solid white;
+            position: relative;
+        }
+
+        #roomImg {
+            object-fit: fill;
+            width: 100%;
+            height: 100%;
+        }
+
+        #hintBox {
+            background-color: rgba(239, 229, 213, 0.5);
+            width: 70%;
+            height: 30%;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            display: none;
+            margin: 0 auto;
+            bottom: 250px;
+            color: black;
+        }
+
+        #storyBox {
+            background-color: rgba(140, 25, 54, .3);
+            width: 100%;
+            padding: 10px;
+            position: absolute;
+            bottom: 0px;
+            color: #FFFFF7;
+        }
+
+        .inputBox {
+            padding: 20px;
+
+
+        }
+
+        #choices {
+            float: left;
+            width: 100%;
+        }
+
+        #mainChoice {
+            width: 100%;
+            margin-bottom: 20px;
+            ;
+        }
+
+        #subChoice {
+            width: 100%;
+            display: none;
+        }
+
+        #textInput {
+            float: left;
+            width: 40%;
+        }
+
+        .option {
+            background-color: black;
+            padding: 10px;
+            font-family: 'VT323', monospace;
+            font-size: 1.2em;
+            color: white;
+            margin-right: 10px;
+            width: 300px;
+            border: 3px solid #8c1936;
+        }
+
+        .subOption {
+            background-color: black;
+            padding: 10px;
+            font-family: 'VT323', monospace;
+            font-size: 1.2em;
+            color: white;
+            margin-right: 10px;
+            width: 300px;
+        }
+
+        #sChoice1 {
+            border: 3px solid #aac9a4;
+        }
+
+        #sChoice1:hover {
+            background-color: #aac9a4;
+        }
+
+        #sChoice2 {
+            border: 3px solid #99bfcc;
+        }
+
+        #sChoice2:hover {
+            background-color: #99bfcc;
+        }
+
+        #sChoice3 {
+            border: 3px solid #c3a4c9;
+        }
+
+        #sChoice3:hover {
+            background-color: #c3a4c9;
+        }
+
+        #sChoice4 {
+            border: 3px solid palevioletred;
+        }
+
+        #sChoice4:hover {
+            background-color: palevioletred;
+        }
+
+        .option:hover {
+            background-color: #a3465e;
+        }
+
+        .subOption:hover {
+            background-color: #7da7ca;
+        }
+
+        .inputBox p {
+            font-size: 1.2em;
+            color: white;
+        }
+
+        #textInput {
+            display: none;
+        }
+
+        #pressed {
+            border: 4px solid white;
+            padding: 10px;
+            background-color: black;
+            height: 50px;
+            width: 100%;
+            color: white;
+            font-family: 'VT323', monospace;
+            font-size: 1.2em;
+        }
+
+        #message {
+            text-align: center;
+        }
+
+        #timer {
+            display: block;
+            width: 100px;
+            height: 55px;
+            position: absolute;
+            left: 1.5rem;
+            top: 2rem;
+            color: white;
+            padding: 5px;
+            font-size: 2em;
+            border: 4px solid white;
+        }
+
+        @media screen and (max-width:1200px) {
+            #box {
+                padding: 50px 100px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header">
+        <div id="timer"></div>
+        <h1>Escape to the Castle</h1>
+    </div>
+
+    <div id="container">
+        <div id="box">
+            <div id="room">
+                <img src="images/asylum_img.jpg" alt="asylum image" id="roomImg" />
+                <div id="storyBox">
+                    <p id="story">You have made it to the Asylum
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="inputBox" id="choices">
+            <div id="mainChoice">
+                <input type="button" id="choice1" class="option" value="Turn around and run">
+                <input type="button" id="choice2" class="option" value="Bust into the Asylum">
+            </div>
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        const storyText = document.querySelector('#story');
+
+        document.querySelector('#choice1').addEventListener('click', function () {
+            storyText.textContent = 'You cant run, you cant hide, you must go through the Asylum!!!';
+
+        });
+
+        document.querySelector('#choice2').addEventListener('click', function () {
+            let name = sessionStorage.getItem('name');
+            storyText.textContent = 'Good luck finding your way out'
+            setTimeout(nextPage, 1000);
+        });
+
+        function nextPage() {
+            window.location.replace('room1.html');
+        }
+
+        //timer - chelsea
+        window.addEventListener('load', function () {
+            getTimeRem();
+            timerVar = setInterval(getTimeRem, 1000);
+        })
+
+        function getTimeRem() {
+            var currentTime = Number(sessionStorage.getItem('timer'));
+            var display = document.querySelector('#timer');
+            var minutes = Math.floor(currentTime / 60);
+            var seconds = currentTime - (minutes * 60);
+            sessionStorage.setItem('timer', --currentTime);
+            console.log(currentTime);
+            if (minutes < 10)
+                minutes = "0" + minutes;
+            if (seconds < 10)
+                seconds = "0" + seconds;
+            if (currentTime <= 10)
+                document.querySelector('#timer').style.color = 'red';
+            if (currentTime >= 0) {
+                document.querySelector("#timer").innerHTML = minutes + ":" + seconds;
+            } else {
+                clearInterval(timerVar);
+                window.location.replace("gameOver.html");
+            }
+        }
+
+    </script>
+</body>
+
+</html>

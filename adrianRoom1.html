@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Math Room</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rye&family=VT323&display=swap');
+
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: black;
+            font-family: 'VT323', monospace;
+            font-size: 1.2em;
+        }
+
+        #header {
+            height: 15vh;
+            overflow-wrap: break-word;
+            border-bottom: 4px solid white;
+            padding: 50px;
+        }
+
+        #header h1 {
+            font-family: 'Press Start 2P', cursive;
+            text-align: center;
+            color: red;
+            font-size: 1em;
+        }
+
+        #container {
+            height: auto;
+        }
+
+        #box {
+            height: 60vh;
+            border-bottom: 4px solid white;
+            padding: 50px 300px;
+        }
+
+        #room {
+            width: 100%;
+            height: 100%;
+            border: 4px solid white;
+            position: relative;
+        }
+
+        #roomImg {
+            object-fit: fill;
+            width: 100%;
+            height: 100%;
+
+        }
+
+        .inputBox {
+            padding: 30px;
+        }
+
+        #button {
+            float: left;
+            width: 60%;
+        }
+
+        #equationBox {
+            float: left;
+            width: 40%;
+        }
+
+
+        .option {
+            background-color: black;
+            padding: 10px;
+            font-family: 'VT323', monospace;
+            font-size: 1.3em;
+            color: white;
+            margin-right: 30px;
+            width: 325px;
+            border: 3px solid #8c1936;
+            position: relative;
+            left: 20px;
+        }
+
+        .option:hover {
+            background-color: #a3465e;
+        }
+
+        .inputBox p {
+            font-size: 1.2em;
+            color: white;
+        }
+
+        #codeInput {
+            border: 4px solid white;
+            padding: 10px;
+            background-color: black;
+            height: 50px;
+            width: 100%;
+            color: white;
+            font-family: 'VT323', monospace;
+            font-size: 1.2em;
+        }
+
+        #storyBox {
+            background-color: rgba(140, 25, 54, .3);
+            width: 100%;
+            padding: 10px;
+            position: absolute;
+            bottom: 0px;
+            color: #FFFFF7;
+        }
+
+        #equation {
+            color: black;
+            text-align: center;
+        }
+
+        #litup {
+            position: relative;
+            right: 60px;
+            bottom: 300px;
+        }
+
+        #timer {
+            display: block;
+            width: 100px;
+            height: 55px;
+            position: absolute;
+            left: 1.5rem;
+            top: 2rem;
+            color: white;
+            padding: 5px;
+            font-size: 2em;
+            border: 4px solid white;
+        }
+
+        @media screen and (max-width:1200px) {
+            #box {
+                padding: 50px 100px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header">
+        <div id="timer"></div>
+        <h1>Escape to the Castle</h1>
+    </div>
+
+    <div id="container">
+        <div id="box">
+            <div id="room">
+                <img src="images/first room.jpg" alt="math room" id="roomImg">
+                <div id="storyBox">
+                    <p id="story">You have stumbled upon yet another room. The door suddenly closes SHUT! This room
+                        looks messy with writings on the walls.
+                        As you examine closer, the writings are not just any writings - they're math equations. This
+                        room is thought
+                        to be a room of a math teacher who lost their mind and the only way to open the door is to enter
+                        the code for the lock.
+                        There is a clue on the lock saying, "To leave the room you must solve the equation hidden in
+                        this room, written in invisible ink.
+                        You need to look for a dot like switch to reveal the equation".
+                    </p>
+                </div>
+
+            </div>
+            <button id="litup" onclick="return litup()"></button>
+
+        </div>
+        <div class="inputBox" id="button">
+            <input type="button" onclick="return falseChoice()" id="choice1" class="option" value="1">
+            <input type="button" onclick="return falseChoice()" id="choice2" class="option" value="8">
+            <input type="button" onclick="setTimeout(moveNextPG, 1000)" name="choice3" class="option" value="5">
+            <input type="button" onclick="return falseChoice()" name="choice4" class="option" value="4">
+        </div>
+        <div class="inputBox" id="equationBox">
+            <p id="equation">Find &spades; to get out: (HINT: All number is less than 10)
+                <br>
+                &clubs; * &clubs; - &hearts; = 32
+                <br>
+                (&hearts; + &hearts;) * &diams; = 24
+                <br>
+                &spades; + &clubs; - &hearts; - &hearts; + &diams; = 6
+            </p>
+        </div>
+
+    </div>
+    <script type="text/javascript" src="js/js.js"></script>
+    <script type="text/javascript">
+
+        //timer - chelsea
+        window.addEventListener('load', function () {
+            getTimeRem();
+            timerVar = setInterval(getTimeRem, 1000);
+        })
+
+        function getTimeRem() {
+            var currentTime = Number(sessionStorage.getItem('timer'));
+            var display = document.querySelector('#timer');
+            var minutes = Math.floor(currentTime / 60);
+            var seconds = currentTime - (minutes * 60);
+            sessionStorage.setItem('timer', --currentTime);
+            console.log(currentTime);
+            if (minutes < 10)
+                minutes = "0" + minutes;
+            if (seconds < 10)
+                seconds = "0" + seconds;
+            if (currentTime <= 10)
+                document.querySelector('#timer').style.color = 'red';
+            if (currentTime >= 0) {
+                document.querySelector("#timer").innerHTML = minutes + ":" + seconds;
+            } else {
+                clearInterval(timerVar);
+                window.location.replace("gameOver.html");
+            }
+        }
+
+        //counter method for rooms entered
+        window.addEventListener('load', roomEnter);
+
+        function roomEnter() {
+
+            // function needs to be called on load at every room stage
+
+            // sessionStorage.setItem('numRoom', 79);
+
+            let numRoom = sessionStorage.getItem('numRoom');
+
+            numRoom++;
+
+            sessionStorage.setItem('numRoom', numRoom);
+        }
+    </script>
+</body>
+
+</html>

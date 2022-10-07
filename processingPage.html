@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Game Processing...</title>
+        <style type="text/css">
+            @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rye&family=VT323&display=swap');
+
+            *{
+                margin: 0px;
+                padding: 0px;
+                box-sizing: border-box;
+            }
+
+            body{
+                background-color: black;
+                width:100vw;
+                height:100vh;
+                padding-top: 30vh;
+                font-family: 'Press Start 2P', cursive;
+            }
+
+            .container{
+                text-align: center; 
+            }
+            
+            h1{
+                color:#8c1936;
+            }
+            
+            h2{
+                color: white;
+            }
+
+            #countdown{
+                color: #8c1936;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1 id="greeting"></h1>
+            <br><br>
+            <h2 class="countMsg">Game Starting in....</h1>
+            <br><br>
+            <h2 id="countdown" class="countMsg">5</h2>
+            <br>
+            <h2>seconds</h2>
+        </div>
+
+        <script type="text/javascript">
+            var start;
+            var duration = 5;
+
+            window.addEventListener("load", function(){
+                start = setInterval(countdown, 1000); 
+            });
+
+            window.addEventListener("load", getName);
+
+            function getName(){
+                let name = sessionStorage.getItem('name');
+                let greet = document.getElementById('greeting');
+                greet.innerHTML = 'Greetings user: ' + name;
+            }
+
+            function countdown(){
+                duration--;
+                if(duration >=0){
+                   document.querySelector('#countdown').innerHTML = duration; 
+                }else{
+                    //change the link to the first page later on
+                    window.location.replace("castleAsylum.html");
+                }
+                console.log(duration);
+            }
+
+        </script>
+    </body>
+</html>

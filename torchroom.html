@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Torch Room</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style type="text/css">
+            @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rye&family=VT323&display=swap');
+
+            *{
+                margin: 0px;
+                padding: 0px;
+                box-sizing: border-box;
+            }
+
+            body{
+                background-color: black;
+                font-family: 'VT323', monospace;
+                font-size: 1.2em;
+            }
+
+            #header{
+                height: 15vh;
+                overflow-wrap: break-word;
+                border-bottom: 4px solid white;
+                padding: 50px;
+            }
+
+            #header h1{
+                font-family: 'Press Start 2P', cursive;
+                text-align: center;
+                color: red;
+                font-size: 1em;
+            }
+
+            #container{
+                height: 85vh;
+            }
+
+            #box{
+                height: 60vh;
+                border-bottom: 4px solid white;
+                padding: 50px 300px;
+            }
+
+            #room{
+                width:100%;
+                height:100%;
+                border: 4px solid white;
+                position:relative;
+            }
+
+            #roomImg{
+                opacity: 0.1;
+                object-fit: fill;
+                width: 100%;
+                height: 100%;
+            }
+
+            #storyBox{
+                background-color: rgba(140,25,54,.3);
+                width: 100%;
+                padding:10px;
+                position:absolute;
+                bottom: 0px;
+                color: #FFFFF7;
+            }
+
+            .inputBox{
+                padding: 20px;
+            }
+
+            #choices{
+                float:left;
+                width: 60%;
+            }
+
+            #mainChoice{
+                width:100%;
+                margin-bottom: 20px;;
+            }
+
+            #subChoice{
+                width:100%;
+                display:none;
+            }
+            
+            #textInput{
+                float:left;
+                width:40%;
+            }
+
+            .option{
+                background-color: black;
+                padding: 10px;
+                font-family: 'VT323', monospace;
+                font-size: 1.2em;
+                color: white;
+                margin-right: 10px;
+                width: 150px;
+                border: 3px solid #8c1936;
+            }
+
+            .subOption{
+                background-color: black;
+                padding: 10px;
+                font-family: 'VT323', monospace;
+                font-size: 1.2em;
+                color: white;
+                margin-right: 10px;
+                width: 150px;
+                border: 3px solid #4682B4;
+            }
+
+            .option:hover{
+                background-color: #a3465e;
+            }
+
+            .subOption:hover{
+                background-color: #7da7ca;
+            }
+
+            .inputBox p{
+                font-size: 1.2em;
+                color: white;
+            }
+
+            #textInput{
+                display: none;
+            }
+
+            #codeInput{
+                border: 4px solid white;
+                padding: 10px;
+                background-color: black;
+                height: 50px;
+                width: 100%;
+                color: white;
+                font-family: 'VT323', monospace;
+                font-size: 1.2em;
+            }
+
+            #codeBtn{
+                background-color: black;
+                padding: 10px;
+                font-family: 'VT323', monospace;
+                font-size: 1.2em;
+                color: white;
+                width: 200px;
+                border: 3px solid chocolate;
+            }
+
+            #codeBtn:hover{
+                background-color: #df9661;
+            }
+
+            #timer{
+                display: block;
+                width: 100px;
+                height: 55px;
+                position: absolute;
+                left: 1.5rem;
+                top: 2rem;
+                color: white;
+                padding: 5px;
+                font-size: 2em;
+                border: 4px solid white;
+            }
+
+            @media screen and (max-width:1200px){
+                #box{
+                    padding: 50px 100px;
+                }
+            }
+
+            @media screen and (max-width:900px){
+                #box{
+                    padding: 50px 100px;
+                }
+
+                #mainChoice{
+                    width: 50%;
+                    float:left;
+                }
+                #subChoice{
+                    width: 50%;
+                    float: left;
+                    padding-left:20px;
+                }
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="header">
+            <div id="timer"></div>
+            <h1>Escape to the Castle</h1>
+        </div>
+
+        <div id="container">
+            <div id="box">
+                <div id="room">
+                    <img src="images/room.jpg" alt="dark room image" id="roomImg"/>
+                    <div id="storyBox">
+                        <p id="story">You step inside the room. You're met with absolute darkness. There's a door on the other side of the room, but it's locked.</p>
+                    </div>
+                </div>    
+            </div>
+            <div class="inputBox" id="choices">
+                <div id="mainChoice">
+                    <input type="button" id="choice1" class="option" value="Walk Around">
+                    <input type="button" id="choice2" class="option" value="Cry">
+                    <input type="button" id="choice3" class="option" value="Check Lock">
+                </div>
+                <div id="subChoice">
+                    <input type="button" id="sChoice1" class="subOption" value="Pick Up">
+                    <input type="button" id="sChoice2" class="subOption" value="Keep Walking">
+                </div>
+            </div>
+            <div class="inputBox" id="textInput">
+                <label for="codeInput"><p>Input the code:</p></label>
+                <input type="text" id="codeInput">
+                <br><br>
+                <input type="button" id="codeBtn" value="Open Lock">
+                <p id="message"></p>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            const storyText = document.querySelector('#story');
+            const option = document.querySelector('.option');
+            const subChoice = document.querySelector('#subChoice');
+            const message = document.querySelector('#message');
+            const code = document.querySelector('#codeInput');
+            const lock = document.querySelector('#textInput');
+
+            document.querySelector('#choice1').addEventListener('click', function(){
+                storyText.textContent='You begin walking around the room blindly, in hopes of finding a clue. Suddenly, you feel something metallic against your foot.';
+                subChoice.style.display='block';
+                lock.style.display='none';
+                document.querySelector('#sChoice1').style.display='inline-block';
+                document.querySelector('#sChoice2').style.display='inline-block';
+            });
+
+            document.querySelector('#choice2').addEventListener('click', function(){
+                storyText.textContent = 'You start crying like a little girl. Nothing is resolved. You are still confined inside the room.';
+                lock.style.display='none';
+                subChoice.style.display='none';
+            });
+
+            document.querySelector('#choice3').addEventListener('click', function(){
+                storyText.textContent = 'You head towards the door and observe the lock. It seems that you need to input a 4 digit code to crack it open.';
+                lock.style.display = 'block';
+                code.value='';
+                code.style.backgroundColor='black';
+                message.textContent='';
+
+            });
+
+            document.querySelector('#sChoice1').addEventListener('click', function(){
+                storyText.style.whiteSpace='pre-wrap';
+                storyText.textContent='Congrats! You found yourself a flashlight! You can now use the flashlight to light up the room. \n';
+                storyText.textContent+='Instructions: Hover your cursor on the Game Display to light up the room'
+                document.querySelector('#sChoice1').style.display='none';
+                // document.querySelector('#sChoice3').style.display='inline-block';
+                document.querySelector('#roomImg').addEventListener('mouseover', torchOn);
+                document.querySelector('#roomImg').addEventListener('mouseleave', torchOff);
+                
+            })
+
+            document.querySelector('#sChoice2').addEventListener('click', function(){
+                storyText.style.whiteSpace='pre-wrap';
+                storyText.textContent = 'You continue walking around the room when you find a piece of paper wedged inside a crack on the wall.\n';
+                storyText.textContent += 'It reads: North-West, South, East, South-West';
+                document.querySelector('#sChoice2').style.display='none';
+            })
+
+            document.querySelector('#codeBtn').addEventListener('click', codeCheck);
+
+            function codeCheck(){
+                if(code.value.trim()==='8068'){
+                    code.style.backgroundColor="#84B070";
+                    message.textContent="Door Unlocked!";
+                    setTimeout(nextPage, 1000);
+                    
+                }else if(!code.value){
+                    code.style.backgroundColor="#a3465e";
+                    message.textContent="Please input code!";
+                }else if(code.value.trim().length != 4){
+                    code.style.backgroundColor="#a3465e";
+                    message.textContent="Code must be 4 digits long";
+                }else{
+                    code.style.backgroundColor="#a3465e";
+                    message.textContent="Wrong Code! Try Again!";
+                }
+            }
+
+            function torchOn(){
+                document.querySelector('#roomImg').style.opacity='1';
+            }
+
+            function torchOff(){
+                document.querySelector('#roomImg').style.opacity='0.1';
+            }
+
+            function nextPage(){
+                window.location.replace('colourRoom.html');
+            }
+
+            //timer - chelsea
+            window.addEventListener('load', function(){
+                getTimeRem();
+                timerVar = setInterval(getTimeRem,1000);
+            })
+
+            function getTimeRem(){
+                var currentTime = Number(sessionStorage.getItem('timer'));
+                var display = document.querySelector('#timer');
+                var minutes = Math.floor(currentTime/60);
+                var seconds = currentTime - (minutes * 60);
+                sessionStorage.setItem('timer', --currentTime);
+                console.log(currentTime);
+                if(minutes < 10)
+                    minutes = "0"+minutes;
+                if(seconds < 10)
+                    seconds = "0"+seconds;
+                if(currentTime <= 10)
+                    document.querySelector('#timer').style.color = 'red';
+                if(currentTime >= 0){
+                    document.querySelector("#timer").innerHTML = minutes + ":" + seconds;
+                }else{
+                    clearInterval(timerVar);
+                    window.location.replace("gameOver.html");
+                }
+            }
+
+            //counter method for rooms entered
+            window.addEventListener('load', roomEnter);
+            
+            function roomEnter() {
+
+                // function needs to be called on load at every room stage
+
+                // sessionStorage.setItem('numRoom', 79);
+
+                let numRoom = sessionStorage.getItem('numRoom');
+
+                numRoom++;
+
+                sessionStorage.setItem('numRoom', numRoom);
+            }
+            
+        </script>
+    </body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Main Page of Castle Escape</title>
+        <link rel="stylesheet" href="css/css.css">
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="header">
+                <h1>Welcome to ESCAPE TO THE CASTLE!</h1>
+            </div>
+            <div id="container">
+                <div id="column1">
+                    <h2>MAIN CHARACTER</h2>
+                    <img src="images/maincharacter.png" alt="Main Character Display"/>
+                </div>
+                <div id="column2">
+                    
+                    <h2>CHARACTER DETAILS</h2>
+                    <form action="processingPage.html" onsubmit="return nameAlert()">
+                        <label for="name">Enter your name:</label>
+                        <br>
+                        <input type="text" id="name" name="name">
+                        <br>
+                        <br>
+                        <legend>
+                            Gender:
+                        </legend>
+                        <input type="radio" id="Male" name="gender" value="Male" checked="checked">
+                        <label for="Male">Male</label>
+                        <input type="radio" id="Female" name="gender" value="Female">
+                        <label for="Female">Female</label>
+                        <input type="radio" id="nonBinary" name="gender" value="Non-Binary">
+                        <label for="Non-Binary">Non-Binary</label>
+                        <br><br>
+                        <input type="submit" id="submit" value="START GAME" onclick="saveData();">
+                    </form>  
+                    <br>
+                    <br>
+                    <p>Please maximise your screen to get the optimised game experience :D</p>
+                </div>
+            </div>
+        </div>  
+        <script type="text/javascript" src="js/js.js"></script>
+    </body>
+</html>

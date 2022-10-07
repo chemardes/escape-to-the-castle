@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Castle/Asylum</title>
+        <style type="text/css">
+            @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rye&family=VT323&display=swap');
+
+            *{
+                margin: 0px;
+                padding: 0px;
+                box-sizing: border-box;
+            }
+
+            body{
+                background-color: black;
+                font-family: 'VT323', monospace;
+                font-size: 1.2em;
+
+            }
+
+            #header{
+                height: 15vh;
+                overflow-wrap: break-word;
+                border-bottom: 4px solid white;
+                padding: 50px;
+            }
+
+            #header h1{
+                font-family: 'Press Start 2P', cursive;
+                text-align: center;
+                color: red;
+                font-size: 1em;
+            }
+
+            #container{
+                height: 85vh;
+            }
+
+            #box{
+                height: 60vh;
+                border-bottom: 4px solid white;
+                padding: 50px 100px;
+            }
+
+            #room{
+                width:100%;
+                height:100%;
+                border: 4px solid white;
+                padding: 20px;
+                text-align: center;
+                object-fit: fill;
+                color:white;
+            }
+
+            .inputBox{
+                padding: 30px;
+            }
+
+            #button{
+                float:left;
+                width: 50%;
+            }
+            
+            #textInput{
+                float:left;
+                width:50%;
+            }
+
+            .option{
+                background-color: black;
+                padding: 10px;
+                font-family: 'VT323', monospace;
+                font-size: 1.2em;
+                color: white;
+                margin-right: 10px;
+                width: 300px;
+                border: 3px solid #8c1936;
+                align-content: center;
+            }
+
+            .option:hover{
+                background-color: #a3465e;
+            }
+
+            .inputBox p{
+                font-size: 1.2em;
+                color: white;
+            }
+
+            #textInput{
+                display: none;
+            }
+
+            #codeInput{
+                border: 4px solid white;
+                padding: 10px;
+                background-color: black;
+                height: 50px;
+                width: 100%;
+                color: white;
+                font-family: 'VT323', monospace;
+                font-size: 1.2em;
+            }
+
+            #timer{
+                display: block;
+                width: 100px;
+                height: 55px;
+                position: absolute;
+                left: 1.5rem;
+                top: 2rem;
+                color: white;
+                padding: 5px;
+                font-size: 2em;
+                border: 4px solid white;
+            }
+
+            @media screen and (max-width:900px){
+                #box{
+                    padding: 50px 100px;
+                }
+
+                .location{
+                    width:40%;
+                }
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="header">
+            <div id="timer"></div>
+            <h1>Escape to the Castle</h1>
+        </div>
+
+        <div id="container">
+            <div id="box">
+                <div id="room">
+                    <p id="story">Which Arena would you like to enter<br>
+                    Fight your way through a haunted asylum or have a nice peaceful walk to a castle... Choose Wisely!!</p><br><br>
+                
+                    <img src="images/miniCastle.png" alt="castleSelect" id="mCastle" class="location">
+                    <img src="images/miniAsylum.png" alt="aslyumSelect" id="mAsylum" class="location">
+                    
+                    
+                </div>
+                
+                <div id ="imageC">
+                    
+
+                </div>
+            </div>
+            <div class="inputBox" id="button">
+                
+                <a href="gameOverCastleSelection.html">
+                <input type="button" id="choice1" class="option" value="Make your way to the castle">
+                </a>
+                
+                <a href="OAsylum.html">
+                <input type="button" id="choice2" class="option" value="Make your way to the Asylum">
+                </a>
+            </div>
+            <div class="inputBox" id="textInput">
+                <label for="codeInput"><p>Input the code:</p></label>
+                <input type="text" id="codeInput">
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            //javascript for game timer
+            var initialTime =  300; // in seconds
+            var timerVar;
+            var time;
+
+            window.addEventListener('load', function(){
+                timer();
+                timerVar = setInterval(timer,1000);
+            })
+
+            function timer(){
+                saveTime();
+                console.log(initialTime);
+                var minutes = Math.floor(initialTime/60);
+                var seconds = initialTime - (minutes * 60);
+                time = initialTime--;
+                if(minutes < 10)
+                    minutes = "0"+minutes;
+                if(seconds < 10)
+                    seconds = "0"+seconds;
+                if(time <= 10)
+                    document.querySelector('#timer').style.color = 'red';
+                if(time >= 0){
+                    document.querySelector("#timer").innerHTML = minutes + ":" + seconds;
+                }else{
+                    clearInterval(timerVar);
+                    window.location.replace("gameOver.html");
+                }
+
+            }
+
+            function saveTime(){
+                var timeRem = time;
+                parseInt(sessionStorage.setItem('timer', timeRem));
+            }        
+        </script>
+
+    </body>
+</html>
