@@ -21,6 +21,7 @@ Escape to the Castle was a team project for QUB's CSC1030 WEB TECHNOLOGIES modul
 3. Statistics Page
 
 #### My contributions to the Project
+---
 During the entirety of this project, I took the liberty of designing the entire game layout, as well as the overall look of the final product. My inspiration for the game came from an existing game known as Undertale. The project heavily depended on having the player complete the entire game before the time ran out. The timer feature was developed by me. This, however, proved to be fairly difficult, as I had to figure out how to pass along the "time" denoted by the timer, such that it would continuously decrement, despite being redirected along various webpages. 
 (EDITING...)
 
